@@ -16,12 +16,12 @@ client = boto3.client('mturk',
                       aws_secret_access_key=aws_secret_access_key,
                       )
 
-hit_id_list =[]
+hit_id_list = []
 images = pickle.load(open('imagesurl.p', 'rb'))
 for img in images:
     response = client.create_hit_with_hit_type(
-        HITLayoutId="39ZKK3W0VL0KX8EGGYE6VH1EX5H65S",
-        HITTypeId="33JNTVT0Y4VGM52WIUOTF5W0G4N3WC",
+        HITLayoutId="3TENGQN5S1KXRPUWS90R2E7L5KC21R",
+        HITTypeId="3ZZSZV2CUBNO90XBT4LC1AIOEWXGSJ",
         HITLayoutParameters=[
             {
                 'Name': 'img',
@@ -33,7 +33,10 @@ for img in images:
     # The response included several fields that will be helpful later
     hit_type_id = response['HIT']['HITTypeId']
     hit_id = response['HIT']['HITId']
-    hit_id_list.append(hit_id)
+    tuple = []
+    tuple.append(hit_id)
+    tuple.append(img)
+    hit_id_list.append(tuple)
 pickle.dump(hit_id_list, open('hitid.p', 'wb'))
-print("Your HIT has been created. You can see it at this link:")
+print("Your HITs has been created at link:")
 print("https://workersandbox.mturk.com/mturk/preview?groupId=" + hit_type_id)

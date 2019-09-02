@@ -10,7 +10,7 @@ def initalization():
     cursor.execute("DROP TABLE IF EXISTS tab")
     # Create table as per requirement
     sql = """CREATE TABLE `dbmysql`.`tab`(`WORKER_ID` VARCHAR(20) NOT NULL , `IMAGE_FILE` VARCHAR(20) 
-    NOT NULL, `QUALITY` INT, `AGE` VARCHAR(10), `SEX` VARCHAR(1) )ENGINE = InnoDB;"""
+    NOT NULL, `QUALITY` INT, `AGE` VARCHAR(10), `SEX` VARCHAR(1), `RESOLUTION` VARCHAR(10))ENGINE = InnoDB;"""
     # Execute the SQL command
     cursor.execute(sql)
     # disconnect from server

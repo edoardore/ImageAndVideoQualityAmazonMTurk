@@ -1,5 +1,6 @@
 import boto3
 from datetime import datetime
+import pickle
 
 # Get the MTurk client
 mturk = boto3.client('mturk',
@@ -10,12 +11,13 @@ mturk = boto3.client('mturk',
                      )
 
 # Delete HITs
-for item in mturk.list_hits()['HITs']:
-    hit_id = item['HITId']
-    print('HITId:', hit_id)
+tuple=pickle.load(open('hitid.p', 'rb'))
+
+for hit_id in tuple:
+    print('HITId:', hit_id[0])
 
     # Get HIT status
-    status = mturk.get_hit(HITId=hit_id)['HIT']['HITStatus']
+    status = mturk.get_hit(HITId=hit_id[0])['HIT']['HITStatus']
     print('HITStatus:', status)
 
     # If HIT is active then set it to expire immediately
@@ -27,7 +29,7 @@ for item in mturk.list_hits()['HITs']:
 
         # Delete the HIT
     try:
-        mturk.delete_hit(HITId=hit_id)
+        mturk.delete_hit(HITId=hit_id[0])
     except:
         print('Not deleted')
     else:
