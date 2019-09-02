@@ -10,7 +10,7 @@
 Il modulo initDB.py serve ad inizializzare il database mySQL in localhost per ricevere i dati dalla piattaforma.
 Le colonne del DB sono: worker id, età, sesso, qualità immagine, risoluzione schermo (acquisita automaticamente).
 
-###Video Example:
+##Video Example:
 [![Watch the video](InkedCattura_LI.jpg)](https://drive.google.com/open?id=1NCrJDslsOT436VfNLMmBHUkw5WCCPaJq)
 
 
