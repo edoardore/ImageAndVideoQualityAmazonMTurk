@@ -1,5 +1,6 @@
 import boto3
 import pickle
+import imageManager
 
 # Use the Amazon Mechanical Turk Sandbox to publish test Human Intelligence Tasks (HITs) without paying any money.
 host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
@@ -15,9 +16,24 @@ client = boto3.client('mturk',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key,
                       )
-
-hit_id_list = []
-images = pickle.load(open('imagesurl.p', 'rb'))
+# Se si creano Hit aggiuntive mettere a True questa variabile
+creatingAnotherHIT = imageManager.getImg()
+if not creatingAnotherHIT:
+    hit_id_list = []  # se prima volta inizializza la lista che colleziona le hit
+    images = pickle.load(open('imagesurl.p', 'rb'))
+else:
+    hit_id_list = pickle.load(open('hitid.p',
+                                   'rb'))  # se si vogliono aggiungere hit inizializzo anche con quelle create in precedenza per non perderle
+    images = pickle.load(open('imagesurl.p', 'rb'))
+    newImages = []
+    oldImages = []
+    for tuple in hit_id_list:
+        oldImages.append(tuple[1])
+    for img in images:
+        if img not in oldImages:
+            newImages.append(img)
+    images = newImages
+hit_type_id = None
 for img in images:
     response = client.create_hit_with_hit_type(
         HITLayoutId="3TENGQN5S1KXRPUWS90R2E7L5KC21R",
@@ -27,7 +43,7 @@ for img in images:
                 'Name': 'img',
                 'Value': img
             }, ],
-        LifetimeInSeconds=60,
+        LifetimeInSeconds=600,  # Quanto resta disponibile una HIT a tutti i Workers, non il timer dopo aver accettato.
         MaxAssignments=5,
     )
     # The response included several fields that will be helpful later
@@ -37,6 +53,9 @@ for img in images:
     tuple.append(hit_id)
     tuple.append(img)
     hit_id_list.append(tuple)
-pickle.dump(hit_id_list, open('hitid.p', 'wb'))
-print("Your HITs has been created at link:")
-print("https://workersandbox.mturk.com/mturk/preview?groupId=" + hit_type_id)
+    pickle.dump(hit_id_list, open('hitid.p', 'wb'))
+if hit_type_id != None:
+    print("Your HITs has been created at link:")
+    print("https://workersandbox.mturk.com/mturk/preview?groupId=" + hit_type_id)
+else:
+    print 'Nothing added, the HITs is already pubblished'

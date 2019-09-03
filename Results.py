@@ -30,41 +30,54 @@ for tuple in hit_id_list:
         AssignmentStatuses=['Submitted'],
     )
     assignments = response['Assignments']
-    print ('The number of submitted assignments is ' + str(len(assignments)))
-    for assignment in assignments:
-        WorkerId = assignment['WorkerId']
-        assignmentId = assignment['AssignmentId']
-        answer = assignment['Answer']
-        root = ET.fromstring(answer)
-        nodes = root.findall(
-            '{http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionFormAnswers.xsd}Answer')
-        freetext = []
-        for node in nodes:
-            freetext.append(node.find(
-                '{http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionFormAnswers.xsd}FreeText').text)
-        print ('The Worker with ID ' + WorkerId + ' submitted assignment ' + assignmentId + ' and gave the answer: ')
-        print freetext
-        age = freetext[0]
-        quality = freetext[1]
-        resolution = freetext[2]
-        db = pymysql.connect("localhost", "usertest", "123test", "dbmysql")
-        # prepare a cursor object using cursor() method
-        cursor = db.cursor()
-        # Prepare SQL query to INSERT a record into the database.
-        if (freetext[4] == 'true'):
-            sex = 'M'
-        else:
-            sex = 'F'
-        sql = "INSERT INTO tab(WORKER_ID, IMAGE_FILE, QUALITY, AGE, SEX, RESOLUTION)VALUES" \
-              "('%s', '%s', '%s', '%s', '%s', '%s')" % (WorkerId, image, quality, age, sex, resolution)
-        try:
-            # Execute the SQL command
-            cursor.execute(sql)
-            # Commit your changes in the database
-            db.commit()
-        except:
-            # Rollback in case there is any error
-            db.rollback()
-        # disconnect from server
-        db.close()
+    numAssignmentSubmitted = len(assignments)
+    print ('The number of submitted assignments is ' + str(numAssignmentSubmitted))
+    MinAssignments = 3
+    if numAssignmentSubmitted >= MinAssignments:
+        for assignment in assignments:
+            WorkerId = assignment['WorkerId']
+            assignmentId = assignment['AssignmentId']
+            answer = assignment['Answer']
+            root = ET.fromstring(answer)
+            nodes = root.findall(
+                '{http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionFormAnswers.xsd}Answer')
+            freetext = []
+            for node in nodes:
+                freetext.append(node.find(
+                    '{http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionFormAnswers.xsd}FreeText').text)
+            print (
+                    'The Worker with ID ' + WorkerId + ' submitted assignment ' + assignmentId + ' and gave the answer: ')
+            print freetext
+            age = freetext[0]
+            quality = freetext[1]
+            resolution = freetext[2]
+            db = pymysql.connect("localhost", "usertest", "123test", "dbmysql")
+            # prepare a cursor object using cursor() method
+            cursor = db.cursor()
+            # Prepare SQL query to INSERT a record into the database.
+            if (freetext[4] == 'true'):
+                sex = 'M'
+            else:
+                sex = 'F'
+            sqlSelect = "SELECT * FROM tab WHERE WORKER_ID='%s' AND IMAGE_FILE='%s' AND QUALITY='%s' AND AGE='%s' AND SEX='%s' AND RESOLUTION='%s'" % (
+                WorkerId, image, quality, age, sex, resolution)
+            sqlInsert = "INSERT INTO tab(WORKER_ID, IMAGE_FILE, QUALITY, AGE, SEX, RESOLUTION)VALUES" \
+                        "('%s', '%s', '%s', '%s', '%s', '%s')" \
+                        % (WorkerId, image, quality, age, sex, resolution)
+            try:
+                cursor.execute(sqlSelect)
+                result = cursor.fetchall()
+                # if the raw not in the table already
+                if len(result) == 0:
+                    # Execute the SQL command
+                    cursor.execute(sqlInsert)
+                    # Commit your changes in the database
+                    db.commit()
+            except:
+                # Rollback in case there is any error
+                db.rollback()
+            # disconnect from server
+            db.close()
+    else:
+        print 'Waiting minimum another ' + str(3 - numAssignmentSubmitted) + ' assignments'
     print ''

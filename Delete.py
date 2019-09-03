@@ -4,14 +4,14 @@ import pickle
 
 # Get the MTurk client
 mturk = boto3.client('mturk',
-                     aws_access_key_id="",
-                     aws_secret_access_key="",
+                     aws_access_key_id='',
+                     aws_secret_access_key='',
                      region_name='us-east-1',
                      endpoint_url="https://mturk-requester-sandbox.us-east-1.amazonaws.com",
                      )
 
 # Delete HITs
-tuple=pickle.load(open('hitid.p', 'rb'))
+tuple = pickle.load(open('hitid.p', 'rb'))
 
 for hit_id in tuple:
     print('HITId:', hit_id[0])
