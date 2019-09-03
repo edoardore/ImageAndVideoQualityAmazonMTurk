@@ -15,6 +15,7 @@ Il modulo imageManager.py viene chiamato da Create.py per caricare sul bucket S3
 ### Video Example:
 [![Watch the video](InkedCattura_LI.jpg)](https://drive.google.com/file/d/1C38FKbey1eFeFJC5GUU5YzXqckEMmoSj/view?usp=sharing)
 
+Nel video si valutano inizialmente 2 HITs con 3 account differenti, si mostra che sono necessarie almeno 3 valutazioni di una immagine affinchè vengano inserite nel DB. Si aggiunge in un secondo momento una terza immagine e si esegue Create.py, i Workers hanno così a disposizione una nuova HIT collegata alle precedenti. 
 
 ## License
 [Edoardo Re](https://github.com/edoardore), 2019
