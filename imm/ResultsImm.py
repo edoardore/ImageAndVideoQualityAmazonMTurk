@@ -9,8 +9,8 @@ host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 # host = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 region_name = 'us-east-1'
-aws_access_key_id = ''
-aws_secret_access_key = ''
+aws_access_key_id = 'AKIAR6AXQDP6P2MRTFFZ'
+aws_secret_access_key = '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'
 client = boto3.client('mturk',
                       endpoint_url=host,
                       region_name=region_name,
@@ -19,7 +19,7 @@ client = boto3.client('mturk',
                       )
 
 # This HIT id should be the HIT you just created - see the CreateHITSample.py file for generating a HIT
-hit_id_list = pickle.load(open('hitid.p', 'rb'))
+hit_id_list = pickle.load(open('imageshitid.p', 'rb'))
 for tuple in hit_id_list:
     hit_id = tuple[0]
     image = tuple[1][53:len(tuple[1])]
@@ -59,9 +59,9 @@ for tuple in hit_id_list:
                 sex = 'M'
             else:
                 sex = 'F'
-            sqlSelect = "SELECT * FROM tab WHERE WORKER_ID='%s' AND IMAGE_FILE='%s' AND QUALITY='%s' AND AGE='%s' AND SEX='%s' AND RESOLUTION='%s'" % (
+            sqlSelect = "SELECT * FROM immquality WHERE WORKER_ID='%s' AND IMAGE_FILE='%s' AND QUALITY='%s' AND AGE='%s' AND SEX='%s' AND RESOLUTION='%s'" % (
                 WorkerId, image, quality, age, sex, resolution)
-            sqlInsert = "INSERT INTO tab(WORKER_ID, IMAGE_FILE, QUALITY, AGE, SEX, RESOLUTION)VALUES" \
+            sqlInsert = "INSERT INTO immquality(WORKER_ID, IMAGE_FILE, QUALITY, AGE, SEX, RESOLUTION)VALUES" \
                         "('%s', '%s', '%s', '%s', '%s', '%s')" \
                         % (WorkerId, image, quality, age, sex, resolution)
             try:

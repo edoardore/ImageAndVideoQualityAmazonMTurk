@@ -31,24 +31,24 @@
         <div id="left">
             <crowd-instructions link-text="View instructions" link-type="button">
                 <short-summary>
-                    <p>You need to evaluate the quality of the images</p>
+                    <p>You need to evaluate the quality of the videos</p>
                 </short-summary>
                 <detailed-instructions>
                     <h3>How to compile the HIT:</h3>
-                    <p>First you need to compile the form and then evaluate the image with the slider.</p>
+                    <p>First you need to compile the form and then evaluate the video with the slider.</p>
                 </detailed-instructions>
                 <positive-example>
-                    <p>You must compile all field and evaluate the image proposed for you</p>
+                    <p>You must compile all field and evaluate the video proposed for you</p>
                 </positive-example>
                 <negative-example>
-                    <p>You must not anwer randomly, you must evaluate the image based on your sensations</p>
+                    <p>You must not answer randomly, you must evaluate the video based on your sensations</p>
                 </negative-example>
             </crowd-instructions>
         </div>
 
         <fieldset>
             <!-- Form Name -->
-            <h4>Image Quality HIT</h4>
+            <h4>Video Quality HIT</h4>
             <div class="form-group">
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="selAge">Age:</label>
@@ -76,10 +76,11 @@
             </div>
 
             <div>
-                <p>Evaluate the quality of this image:</p>
+                <p>Evaluate the quality of this video:</p>
             </div>
             <div>
-                <img src="${img}">
+                <iframe scroll=no width=600 height=340 frameborder=0 scrolling=no
+                        src="${vid}"></iframe>
             </div>
             <div>
                 <ul>
