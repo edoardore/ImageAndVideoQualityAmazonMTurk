@@ -103,13 +103,19 @@
                         margin-right: auto;
                     }
                 </style>
-                <crowd-slider name="quality" id="my-slider" min="0" max="100" step="1" pin="true"
-                              required></crowd-slider>
+                <crowd-slider name="quality" id="my-slider" min="0" max="100" step="1"
+                              pin="true" onchange="enableButton()"></crowd-slider>
                 <input id="browser-resolution" type="hidden" name="resolution" value="">
                 <script>
                     document.getElementById('browser-resolution').value = screen.width + "x" + screen.height;
                 </script>
             </div>
         </fieldset>
+        <crowd-button form-action="submit" id="submit" variant="primary" disabled>Submit</crowd-button>
+        <script>
+            function enableButton() {
+                document.getElementById("submit").disabled = false;
+            }
+        </script>
     </crowd-form>
 </div>
