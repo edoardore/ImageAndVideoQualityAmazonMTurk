@@ -37,8 +37,8 @@ else:
 hit_type_id = None
 for img in images:
     response = client.create_hit_with_hit_type(
-        HITLayoutId="3TENGQN5S1KXRPUWS90R2E7L5KC21R",
-        HITTypeId="3ZZSZV2CUBNO90XBT4LC1AIOEWXGSJ",
+        HITLayoutId=Key.getHITLayoutIdIMG(),
+        HITTypeId=Key.getHITTypeIdIMG(),
         HITLayoutParameters=[
             {
                 'Name': 'img',

@@ -37,8 +37,8 @@ else:
 hit_type_id = None
 for vid in videos:
     response = client.create_hit_with_hit_type(
-        HITLayoutId="3H3KXNS7BOF998GA1QKCLBZ16KXCEX",
-        HITTypeId="3XPFDBC9D5EXTBAQ09FXJJR5OHMR9I",
+        HITLayoutId=Key.getHITLayoutIdVID(),
+        HITTypeId=Key.getHITTypeIdVID(),
         HITLayoutParameters=[
             {
                 'Name': 'vid',
