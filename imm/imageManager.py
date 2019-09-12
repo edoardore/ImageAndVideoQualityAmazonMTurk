@@ -3,11 +3,12 @@ from botocore.exceptions import NoCredentialsError
 import os
 import pickle
 import mimetypes
+import Key
 
 
 def getImg():
-    aws_access_key_id = 'AKIAR6AXQDP6P2MRTFFZ'
-    aws_secret_access_key = '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'
+    aws_access_key_id = Key.getAws_access_key_id()
+    aws_secret_access_key = Key.getAws_secret_access_key()
 
     def upload_to_aws(local_file, bucket, s3_file):
         s3 = boto3.client('s3',

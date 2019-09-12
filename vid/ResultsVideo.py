@@ -2,6 +2,7 @@ import boto3
 import pickle
 import xml.etree.ElementTree as ET
 import pymysql
+import Key
 
 # Use the Amazon Mechanical Turk Sandbox to publish test Human Intelligence Tasks (HITs) without paying any money.
 host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
@@ -9,8 +10,8 @@ host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 # host = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 region_name = 'us-east-1'
-aws_access_key_id = 'AKIAR6AXQDP6P2MRTFFZ'
-aws_secret_access_key = '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'
+aws_access_key_id = Key.getAws_access_key_id()
+aws_secret_access_key = Key.getAws_secret_access_key()
 client = boto3.client('mturk',
                       endpoint_url=host,
                       region_name=region_name,
@@ -32,7 +33,7 @@ for tuple in hit_id_list:
     assignments = response['Assignments']
     numAssignmentSubmitted = len(assignments)
     print ('The number of submitted assignments is ' + str(numAssignmentSubmitted))
-    MinAssignments = 3
+    MinAssignments = 1
     if numAssignmentSubmitted >= MinAssignments:
         for assignment in assignments:
             WorkerId = assignment['WorkerId']

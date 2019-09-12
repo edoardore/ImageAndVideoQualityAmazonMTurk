@@ -1,6 +1,7 @@
 import boto3
 import pickle
 import videoManager
+import Key
 
 # Use the Amazon Mechanical Turk Sandbox to publish test Human Intelligence Tasks (HITs) without paying any money.
 host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
@@ -8,8 +9,8 @@ host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 # host = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 region_name = 'us-east-1'
-aws_access_key_id = 'AKIAR6AXQDP6P2MRTFFZ'
-aws_secret_access_key = '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'
+aws_access_key_id = Key.getAws_access_key_id()
+aws_secret_access_key = Key.getAws_secret_access_key()
 client = boto3.client('mturk',
                       endpoint_url=host,
                       region_name=region_name,
@@ -36,14 +37,14 @@ else:
 hit_type_id = None
 for vid in videos:
     response = client.create_hit_with_hit_type(
-        HITLayoutId="33VO51HXWCDZ1P92IH5UYAKCAC7TX5",
+        HITLayoutId="3H3KXNS7BOF998GA1QKCLBZ16KXCEX",
         HITTypeId="3XPFDBC9D5EXTBAQ09FXJJR5OHMR9I",
         HITLayoutParameters=[
             {
                 'Name': 'vid',
                 'Value': vid
             }, ],
-        LifetimeInSeconds=600,  # Quanto resta disponibile una HIT a tutti i Workers, non il timer dopo aver accettato.
+        LifetimeInSeconds=300,  # Quanto resta disponibile una HIT a tutti i Workers, non il timer dopo aver accettato.
         MaxAssignments=5,
     )
     # The response included several fields that will be helpful later

@@ -1,11 +1,12 @@
 import boto3
 from datetime import datetime
 import pickle
+import Key
 
 # Get the MTurk client
 mturk = boto3.client('mturk',
-                     aws_access_key_id='AKIAR6AXQDP6P2MRTFFZ',
-                     aws_secret_access_key='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',
+                     aws_access_key_id=Key.getAws_access_key_id(),
+                     aws_secret_access_key=Key.getAws_secret_access_key(),
                      region_name='us-east-1',
                      endpoint_url="https://mturk-requester-sandbox.us-east-1.amazonaws.com",
                      )

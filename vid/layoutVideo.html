@@ -79,9 +79,13 @@
                 <p>Evaluate the quality of this video:</p>
             </div>
             <div>
-                <iframe scroll=no width=600 height=340 frameborder=0 scrolling=no
-                        src="${vid}"></iframe>
+                <video loop muted class="video-js vjs-default-skin" id='vid' width="600">
+                    <source src="${vid}">
+                </video>
             </div>
+            <script>
+                document.getElementById('vid').play();
+            </script>
             <div>
                 <ul>
                     <span>Bad</span>
