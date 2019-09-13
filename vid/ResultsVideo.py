@@ -33,7 +33,7 @@ for tuple in hit_id_list:
     assignments = response['Assignments']
     numAssignmentSubmitted = len(assignments)
     print ('The number of submitted assignments is ' + str(numAssignmentSubmitted))
-    MinAssignments = 1
+    MinAssignments = 3
     if numAssignmentSubmitted >= MinAssignments:
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
