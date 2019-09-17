@@ -3,6 +3,7 @@ import pickle
 import xml.etree.ElementTree as ET
 import pymysql
 import Key
+import time
 
 # Use the Amazon Mechanical Turk Sandbox to publish test Human Intelligence Tasks (HITs) without paying any money.
 host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
@@ -21,7 +22,12 @@ client = boto3.client('mturk',
 
 # This HIT id should be the HIT you just created - see the CreateHITSample.py file for generating a HIT
 hit_id_list = pickle.load(open('imageshitid.p', 'rb'))
+i = 0
 for tuple in hit_id_list:
+    i += 1
+    if (i % 200) == 0:
+        print 'Sleep for one minute'
+        time.sleep(60)
     hit_id = tuple[0]
     image = tuple[1][53:len(tuple[1])]
     hit = client.get_hit(HITId=hit_id)

@@ -2,6 +2,7 @@ import boto3
 from datetime import datetime
 import pickle
 import Key
+import time
 
 # Get the MTurk client
 mturk = boto3.client('mturk',
@@ -10,24 +11,24 @@ mturk = boto3.client('mturk',
                      region_name='us-east-1',
                      endpoint_url="https://mturk-requester-sandbox.us-east-1.amazonaws.com",
                      )
-
 # Delete HITs
 tuple = pickle.load(open('imageshitid.p', 'rb'))
-
+i = 0
 for hit_id in tuple:
+    i += 1
+    if (i % 500) == 0:
+        print 'Sleep for one minute'
+        time.sleep(60)
     print('HITId:', hit_id[0])
-
     # Get HIT status
     status = mturk.get_hit(HITId=hit_id[0])['HIT']['HITStatus']
     print('HITStatus:', status)
-
     # If HIT is active then set it to expire immediately
     if status == 'Assignable':
         response = mturk.update_expiration_for_hit(
             HITId=hit_id[0],
             ExpireAt=datetime(2015, 1, 1)
         )
-
         # Delete the HIT
     try:
         mturk.delete_hit(HITId=hit_id[0])

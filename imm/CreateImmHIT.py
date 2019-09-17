@@ -2,6 +2,7 @@ import boto3
 import pickle
 import imageManager
 import Key
+import time
 
 # Use the Amazon Mechanical Turk Sandbox to publish test Human Intelligence Tasks (HITs) without paying any money.
 host = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
@@ -35,7 +36,12 @@ else:
             newImages.append(img)
     images = newImages
 hit_type_id = None
+i = 0
 for img in images:
+    i += 1
+    if (i % 500) == 0:
+        print 'Sleep for one minute'
+        time.sleep(60)
     response = client.create_hit_with_hit_type(
         HITLayoutId=Key.getHITLayoutIdIMG(),
         HITTypeId=Key.getHITTypeIdIMG(),
@@ -44,9 +50,11 @@ for img in images:
                 'Name': 'img',
                 'Value': img
             }, ],
-        LifetimeInSeconds=600,  # Quanto resta disponibile una HIT a tutti i Workers, non il timer dopo aver accettato.
+        # Quanto resta disponibile una HIT a tutti i Workers, non il timer dopo aver accettato.
+        LifetimeInSeconds=60 * 10,
         MaxAssignments=5,
     )
+    print str(i) + ')  ' + 'Created HIT for ' + img
     # The response included several fields that will be helpful later
     hit_type_id = response['HIT']['HITTypeId']
     hit_id = response['HIT']['HITId']
