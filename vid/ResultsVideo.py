@@ -58,7 +58,7 @@ for tuple in hit_id_list:
             age = freetext[0]
             quality = freetext[1]
             resolution = freetext[2]
-            db = pymysql.connect("localhost", "usertest", "123test", "dbmysql")
+            db = pymysql.connect("localhost", "utente", "pass123", "dbmysql")
             # prepare a cursor object using cursor() method
             cursor = db.cursor()
             # Prepare SQL query to INSERT a record into the database.
